@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <Style TargetType="Path">
             <Setter Property="Stroke" Value="Gold" />
-            <Setter Property="Fill" Value="Transparent" />
+            <Setter Property="Fill" Value="Wheat" />
         </Style>
     </UserControl.Resources>
     <Canvas x:Name="touchCanvas">
