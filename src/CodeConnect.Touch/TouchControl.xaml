@@ -6,19 +6,13 @@
              xmlns:local="clr-namespace:CodeConnect.Touch"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="Path">
+            <Setter Property="Stroke" Value="Gold" />
+            <Setter Property="Fill" Value="Transparent" />
+        </Style>
+    </UserControl.Resources>
     <Canvas x:Name="touchCanvas">
-        <Path Stroke="Gold" StrokeThickness="3" Fill="Brown">
-            <Path.Data>
-                <PathGeometry>
-                    <PathGeometry.Figures>
-                        <PathFigure StartPoint="146,-106" IsClosed="true">
-                            <ArcSegment Point="146,106" Size="180 180" IsLargeArc="False" SweepDirection="Clockwise"/>
-                            <LineSegment Point="40.5,29.4" />
-                            <ArcSegment Point="40.5,-29.4" Size="50 50" IsLargeArc="False" SweepDirection="Counterclockwise"/>
-                        </PathFigure>
-                    </PathGeometry.Figures>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
+        
     </Canvas>
 </UserControl>

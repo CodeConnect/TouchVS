@@ -46,6 +46,7 @@ namespace CodeConnect.Touch
         {
             if ((sender as UIElement).TouchesOver.Count() == 3)
             {
+                e.Handled = true;
                 lastTouchPosition = (sender as UIElement).TouchesOver.Select(t => t.GetTouchPoint(null).Position).GetAverage();
                 showTouchControl();
             }
@@ -65,10 +66,10 @@ namespace CodeConnect.Touch
                     Background = new SolidColorBrush(Colors.Transparent),
                     WindowStyle = WindowStyle.None,
                     WindowStartupLocation = WindowStartupLocation.Manual,
-                    Width = TouchControl.DIAMETER,
-                    Height = TouchControl.DIAMETER,
+                    Width = 2*TouchControlShapeFactory.DIAMETER,
+                    Height = 2*TouchControlShapeFactory.DIAMETER,
                 };
-                touchWindow.Content = new TouchControl()
+                touchWindow.Content = new TouchControl(5)
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     VerticalAlignment = VerticalAlignment.Stretch,
@@ -77,8 +78,8 @@ namespace CodeConnect.Touch
                 touchWindow.Deactivated += (s, e) => { touchWindow.Hide(); (view as UIElement).Focus(); };
                 touchWindow.Closed += (s, e) => touchWindow = null;
             }
-            touchWindow.Left = lastTouchPosition.X - TouchControl.DIAMETER / 2;
-            touchWindow.Top = lastTouchPosition.Y - TouchControl.DIAMETER / 2;
+            touchWindow.Left = lastTouchPosition.X - TouchControlShapeFactory.DIAMETER / 2;
+            touchWindow.Top = lastTouchPosition.Y - TouchControlShapeFactory.DIAMETER / 2;
             touchWindow.Show();
         }
     }

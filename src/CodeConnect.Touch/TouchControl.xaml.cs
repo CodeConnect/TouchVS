@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeConnect.Touch.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +21,28 @@ namespace CodeConnect.Touch
     /// </summary>
     public partial class TouchControl : UserControl
     {
-        const double FULL_CIRCLE = 360d;
-        const double INNER_RADIUS = 50d;
-        const double OUTER_RADIUS = 180d;
-        public const double DIAMETER = 2 * OUTER_RADIUS;
+
 
         public TouchControl()
         {
             InitializeComponent();
+        }
+
+        public TouchControl(int segmentAmount)
+        {
+            InitializeComponent();
+            for (int i = 0; i < segmentAmount; i++)
+            {
+                var segment = TouchControlShapeFactory.GetSegment(segmentAmount, i);
+                var path = new Path()
+                {
+                    Data = segment,
+                };
+                touchCanvas.Children.Add(path);
+            }
+            var middleSegment = TouchControlShapeFactory.GetMiddleSegment();
+            touchCanvas.Children.Add(middleSegment);
+            
         }
     }
 }
