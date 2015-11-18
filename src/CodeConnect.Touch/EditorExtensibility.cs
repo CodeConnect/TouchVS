@@ -8,6 +8,9 @@ using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.VisualStudio.Text.Editor;
+using System.Windows;
+using System.Linq;
+using CodeConnect.Touch.Helpers;
 
 namespace CodeConnect.Touch
 {
@@ -16,43 +19,12 @@ namespace CodeConnect.Touch
     /// </summary>
     internal sealed class EditorExtensibility
     {
-        /// <summary>
-        /// The width of the square box.
-        /// </summary>
-        private const double AdornmentWidth = 30;
-
-        /// <summary>
-        /// The height of the square box.
-        /// </summary>
-        private const double AdornmentHeight = 30;
-
-        /// <summary>
-        /// Distance from the viewport top to the top of the square box.
-        /// </summary>
-        private const double TopMargin = 30;
-
-        /// <summary>
-        /// Distance from the viewport right to the right end of the square box.
-        /// </summary>
-        private const double RightMargin = 30;
-
-        /// <summary>
-        /// Text view to add the adornment on.
-        /// </summary>
         private readonly IWpfTextView view;
+        private Window touchWindow;
+        private Point lastTouchPosition;
 
         /// <summary>
-        /// Adornment image
-        /// </summary>
-        private readonly Image image;
-
-        /// <summary>
-        /// The layer for the adornment.
-        /// </summary>
-        private readonly IAdornmentLayer adornmentLayer;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EditorExtensibility"/> class.
+        /// Initializes a new instance of the <see cref="TouchAdornment"/> class.
         /// Creates a square image and attaches an event handler to the layout changed event that
         /// adds the the square in the upper right-hand corner of the TextView via the adornment layer
         /// </summary>
@@ -65,51 +37,49 @@ namespace CodeConnect.Touch
             }
 
             this.view = view;
+            touchWindow = null;
 
-            var brush = new SolidColorBrush(Colors.BlueViolet);
-            brush.Freeze();
-            var penBrush = new SolidColorBrush(Colors.Red);
-            penBrush.Freeze();
-            var pen = new Pen(penBrush, 0.5);
-            pen.Freeze();
-
-            // Draw a square with the created brush and pen
-            System.Windows.Rect r = new System.Windows.Rect(0, 0, AdornmentWidth, AdornmentHeight);
-            var geometry = new RectangleGeometry(r);
-
-            var drawing = new GeometryDrawing(brush, pen, geometry);
-            drawing.Freeze();
-
-            var drawingImage = new DrawingImage(drawing);
-            drawingImage.Freeze();
-
-            this.image = new Image
-            {
-                Source = drawingImage,
-            };
-
-            this.adornmentLayer = view.GetAdornmentLayer("EditorExtensibility");
-
-            this.view.ViewportHeightChanged += this.OnSizeChanged;
-            this.view.ViewportWidthChanged += this.OnSizeChanged;
+            (view as UIElement).TouchDown += TouchAdornment_TouchDown;
         }
 
-        /// <summary>
-        /// Event handler for viewport height or width changed events. Adds adornment at the top right corner of the viewport.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void OnSizeChanged(object sender, EventArgs e)
+        private void TouchAdornment_TouchDown(object sender, System.Windows.Input.TouchEventArgs e)
         {
-            // Clear the adornment layer of previous adornments
-            this.adornmentLayer.RemoveAllAdornments();
+            if ((sender as UIElement).TouchesOver.Count() == 3)
+            {
+                lastTouchPosition = (sender as UIElement).TouchesOver.Select(t => t.GetTouchPoint(null).Position).GetAverage();
+                showTouchControl();
+            }
+        }
 
-            // Place the image in the top right hand corner of the Viewport
-            Canvas.SetLeft(this.image, this.view.ViewportRight - RightMargin - AdornmentWidth);
-            Canvas.SetTop(this.image, this.view.ViewportTop + TopMargin);
 
-            // Add the image to the adornment layer and make it relative to the viewport
-            this.adornmentLayer.AddAdornment(AdornmentPositioningBehavior.ViewportRelative, null, null, this.image, null);
+
+        private void showTouchControl()
+        {
+            if (touchWindow == null)
+            {
+                touchWindow = new Window()
+                {
+                    //ShowInTaskbar = false, commented out for debugging
+                    ShowActivated = true,
+                    AllowsTransparency = true,
+                    Background = new SolidColorBrush(Colors.Transparent),
+                    WindowStyle = WindowStyle.None,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Width = TouchControl.DIAMETER,
+                    Height = TouchControl.DIAMETER,
+                };
+                touchWindow.Content = new TouchControl()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                };
+                touchWindow.LostFocus += (s, e) => { touchWindow.Hide(); (view as UIElement).Focus(); };
+                touchWindow.Deactivated += (s, e) => { touchWindow.Hide(); (view as UIElement).Focus(); };
+                touchWindow.Closed += (s, e) => touchWindow = null;
+            }
+            touchWindow.Left = lastTouchPosition.X - TouchControl.DIAMETER / 2;
+            touchWindow.Top = lastTouchPosition.Y - TouchControl.DIAMETER / 2;
+            touchWindow.Show();
         }
     }
 }
