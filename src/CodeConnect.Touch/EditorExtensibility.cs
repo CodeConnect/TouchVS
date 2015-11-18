@@ -81,6 +81,7 @@ namespace CodeConnect.Touch
             touchWindow.Left = lastTouchPosition.X - TouchControlShapeFactory.DIAMETER / 2;
             touchWindow.Top = lastTouchPosition.Y - TouchControlShapeFactory.DIAMETER / 2;
             touchWindow.Show();
+            touchWindow.Focus();
         }
     }
 }
