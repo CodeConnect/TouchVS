@@ -21,7 +21,6 @@ namespace CodeConnect.Touch
     internal sealed class EditorExtensibility
     {
         readonly IWpfTextView view;
-        Window touchWindow;
         DateTime lastTouchUpTime;
         bool waitingForSecondTouch;
 
@@ -39,7 +38,6 @@ namespace CodeConnect.Touch
             }
 
             this.view = view;
-            touchWindow = null;
 
             (view as UIElement).TouchUp += TouchAdornment_TouchUp;
         }
