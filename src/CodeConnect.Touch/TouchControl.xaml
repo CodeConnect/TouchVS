@@ -9,11 +9,12 @@
     <UserControl.Resources>
         <Style TargetType="Path">
             <Setter Property="Stroke" Value="Gold" />
+            <Setter Property="Fill" Value="Red" />
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="False">
-                    <Setter Property="Fill" Value="Gold" />
-                </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Fill" Value="Yellow" />
+                </Trigger>
+                <Trigger Property="IsStylusOver" Value="True">
                     <Setter Property="Fill" Value="Yellow" />
                 </Trigger>
             </Style.Triggers>

@@ -21,11 +21,8 @@ namespace CodeConnect.Touch
     /// </summary>
     public partial class TouchControl : UserControl
     {
-        static SolidColorBrush hoverBrush = new SolidColorBrush(Colors.Yellow);
-
         static TouchControl()
         {
-            hoverBrush.Freeze();
         }
 
         public TouchControl()
@@ -44,11 +41,6 @@ namespace CodeConnect.Touch
                     Data = segment,
                 };
                 touchCanvas.Children.Add(path);
-                path.TouchDown += (s, e) =>
-                {
-                    e.Handled = true;
-                    (s as Path).Fill = hoverBrush;
-                };
                 path.TouchUp += (s, e) =>
                 {
                     e.Handled = true;
