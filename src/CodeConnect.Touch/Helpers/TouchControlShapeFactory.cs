@@ -15,7 +15,7 @@ namespace CodeConnect.Touch.Helpers
         const double FULL_CIRCLE = 360d;
         const double INNER_RADIUS = 50d;
         const double OUTER_RADIUS = 180d;
-        const double TEXT_RADIUS = 150d;
+        const double TEXT_RADIUS = 130d;
         public const double DIAMETER = 2 * OUTER_RADIUS;
 
         public static Geometry GetSegment(int totalSegments, int index)
