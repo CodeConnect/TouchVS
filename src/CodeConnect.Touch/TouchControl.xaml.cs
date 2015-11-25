@@ -63,7 +63,7 @@ namespace CodeConnect.Touch
                 path.TouchUp += (s, e) =>
                 {
                     e.Handled = true;
-                    VisualStudioModule.ExecuteCommand($"Command{i}");
+                    VisualStudioModule.ExecuteCommand("View.FullScreen");
                     parentWindow.Hide();
                 } ;
             }

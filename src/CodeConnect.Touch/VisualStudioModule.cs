@@ -29,7 +29,14 @@ namespace CodeConnect.Touch
         public static void ExecuteCommand(string commandName, string commandArgs = "")
         {
             var test = commandName;
-            //dte.ExecuteCommand(commandName, commandArgs);
+            try
+            {
+                envDte.ExecuteCommand(commandName, commandArgs);
+            }
+            catch (Exception ex)
+            {
+                envDte.StatusBar.Text = $"Error executing {commandName}";
+            }
         }
 
         private static void initializeBrushes()
