@@ -14,5 +14,20 @@ namespace CodeConnect.Touch.Model
         {
             return DisplayName;
         }
+
+        public override int GetHashCode()
+        {
+            return DisplayName.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var otherTouchCommand = obj as TouchCommand;
+            if (obj == null)
+            {
+                return false;
+            }
+            return this.DisplayName == otherTouchCommand.DisplayName;
+        }
     }
 }

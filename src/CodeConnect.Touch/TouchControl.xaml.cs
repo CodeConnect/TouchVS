@@ -23,6 +23,11 @@ namespace CodeConnect.Touch
     public partial class TouchControl : UserControl
     {
         /// <summary>
+        /// Caches the windows with their controls so that they don't need to be regenerated on each touch.
+        /// </summary>
+        static Dictionary<TouchBranchCommand, Window> windowCache = new Dictionary<TouchBranchCommand, Window>();
+
+        /// <summary>
         /// Creates a touch control
         /// </summary>
         /// <param name="entryCommand"></param>
@@ -95,25 +100,36 @@ namespace CodeConnect.Touch
         {
             var position = touchEvent.GetTouchPoint(null).Position.FixCoordinates(touchEvent.Source as DependencyObject);
 
-            var touchWindow = new Window()
+            Window touchWindow;
+            if (!windowCache.TryGetValue(entryPoint, out touchWindow))
             {
-                //ShowInTaskbar = false, commented out for debugging
-                ShowActivated = true,
-                AllowsTransparency = true,
-                Background = new SolidColorBrush(Colors.Transparent),
-                WindowStyle = WindowStyle.None,
-                WindowStartupLocation = WindowStartupLocation.Manual,
-                Width = 2 * TouchControlShapeFactory.DIAMETER,
-                Height = 2 * TouchControlShapeFactory.DIAMETER,
-            };
-            touchWindow.Content = new TouchControl(entryPoint, touchWindow)
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-            };
-            touchWindow.LostFocus += (s, e) => { touchWindow.Hide(); };
-            touchWindow.Deactivated += (s, e) => { touchWindow.Hide(); };
-            touchWindow.Closed += (s, e) => touchWindow = null;
+                touchWindow = new Window()
+                {
+                    //ShowInTaskbar = false, commented out for debugging
+                    ShowActivated = true,
+                    AllowsTransparency = true,
+                    Background = new SolidColorBrush(Colors.Transparent),
+                    WindowStyle = WindowStyle.None,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Width = 2 * TouchControlShapeFactory.DIAMETER,
+                    Height = 2 * TouchControlShapeFactory.DIAMETER,
+                };
+                touchWindow.Content = new TouchControl(entryPoint, touchWindow)
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                };
+                touchWindow.LostFocus += (s, e) => { touchWindow.Hide(); };
+                touchWindow.Deactivated += (s, e) => { touchWindow.Hide(); };
+                touchWindow.Closed += (s, e) =>
+                {
+                    touchWindow.Content = null;
+                    touchWindow = null;
+                    windowCache.Remove(entryPoint);
+                };
+
+                windowCache.Add(entryPoint, touchWindow);
+            }
             touchWindow.Left = position.X - TouchControlShapeFactory.DIAMETER / 2;
             touchWindow.Top = position.Y - TouchControlShapeFactory.DIAMETER / 2;
             touchWindow.Show();
