@@ -1,9 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="CodeConnect.Touch.Amadeusz Wieczorek.b3a6eae4-3d80-47b2-b1c2-904b79ddb7a9" Version="1.0" Language="en-US" Publisher="Amadeusz Wieczorek" />
-    <DisplayName>CodeConnect.Touch</DisplayName>
-    <Description>Empty VSIX Project.</Description>
+    <Identity Id="CodeConnect.Touch.Amadeusz Wieczorek.b3a6eae4-3d80-47b2-b1c2-904b79ddb7a9" Version="1.0" Language="en-US" Publisher="Code Connect" />
+    <DisplayName>Touch VS</DisplayName>
+    <Description xml:space="preserve">Touch interface for common functions of Visual Studio.</Description>
+    <MoreInfo>https://github.com/CodeConnect/TouchVS</MoreInfo>
+    <Icon>Resources\icon.png</Icon>
+    <PreviewImage>Resources\preview.png</PreviewImage>
+    <Tags>touch interface stylus ui</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
