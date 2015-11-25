@@ -10,34 +10,36 @@ namespace CodeConnect.Touch.Model
     {
         static TouchBranchCommand entryPoint = new TouchBranchCommand("Entry point", new List<TouchCommand>()
             {
-                new TouchBranchCommand("View", new List<TouchCommand>()
-                {
-                    new TouchVSCommand("Full screen", "View.FullScreen"),
-                    new TouchVSCommand("Output", "View.Output"),
-                    new TouchVSCommand("Error List", "View.ErrorList"),
-                    new TouchVSCommand("Back", "View.NavigateBackward"),
-                    new TouchVSCommand("Forward", "View.NavigateForward"),
-                }),
-                new TouchBranchCommand("Code", new List<TouchCommand>()
-                {
-                    new TouchVSCommand("References", "View.ShowReferences"),
-                    new TouchVSCommand("Find", "Edit.FindInFiles"),
-
-                }),
                 new TouchBranchCommand("Build", new List<TouchCommand>()
                 {
                     new TouchVSCommand("Build", "Build.BuildSolution"),
                     new TouchVSCommand("Rebuild", "Build.RebuildSolution"),
-                    new TouchVSCommand("Deploy", "Build.DeploySolution"),
                     new TouchVSCommand("Clean", "Build.CleanSolution"),
+                    new TouchVSCommand("Deploy", "Build.DeploySolution"),
+                }),
+                new TouchBranchCommand("Code", new List<TouchCommand>()
+                {
+                    new TouchVSCommand("F12", "Edit.GoToDefinition"),
+                    new TouchVSCommand("Replace", "Edit.ReplaceinFiles"),
+                    new TouchVSCommand("References", "Edit.FindAllReferences"),
+                    new TouchVSCommand("Find", "Edit.FindInFiles"),
+
+                }),
+                new TouchBranchCommand("View", new List<TouchCommand>()
+                {
+                    new TouchVSCommand("Full screen", "View.FullScreen"),
+                    new TouchVSCommand("Back", "View.NavigateBackward"),
+                    new TouchVSCommand("Error List", "View.ErrorList"),
+                    new TouchVSCommand("Output", "View.Output"),
+                    new TouchVSCommand("Forward", "View.NavigateForward"),
                 }),
                 new TouchBranchCommand("File", new List<TouchCommand>()
                 {
                     new TouchVSCommand("Save All", "File.SaveAll"),
-                    new TouchVSCommand("Save", "File.SaveSelectedItem"),
+                    new TouchVSCommand("Save", "File.SaveSelectedItems"),
                     new TouchVSCommand("Close", "File.Close"),
                     new TouchVSCommand("Close solution", "File.CloseSolution"),
-                    new TouchVSCommand("Open", "File.OpenAll"),
+                    new TouchVSCommand("Open", "File.OpenFile"),
                 }),
                 new TouchBranchCommand("Test", new List<TouchCommand>()
                 {
