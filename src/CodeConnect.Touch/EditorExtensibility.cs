@@ -20,9 +20,8 @@ namespace CodeConnect.Touch
     /// </summary>
     internal sealed class EditorExtensibility
     {
-        private readonly IWpfTextView view;
-        private Window touchWindow;
-        private Point lastTouchPosition;
+        readonly IWpfTextView view;
+        Window touchWindow;
         DateTime lastTouchUpTime;
         bool waitingForSecondTouch;
 
@@ -56,8 +55,8 @@ namespace CodeConnect.Touch
             if ((sender as UIElement).TouchesOver.Count() == 3)
             {
                 e.Handled = true;
-                lastTouchPosition = (sender as UIElement).TouchesOver.Select(t => t.GetTouchPoint(null).Position).GetAverage();
-                showTouchControl();
+                var touchPosition = (sender as UIElement).TouchesOver.Select(t => t.GetTouchPoint(null).Position).GetAverage();
+                showTouchControl(touchPosition);
             }
         }
 
@@ -72,15 +71,15 @@ namespace CodeConnect.Touch
             if (waitingForSecondTouch && touchUpTime < lastTouchUpTime + TimeSpan.FromSeconds(1))
             {
                 waitingForSecondTouch = false;
-                lastTouchPosition = (sender as UIElement).TouchesOver.Select(t => t.GetTouchPoint(null).Position).GetAverage();
-                showTouchControl();
+                var touchPosition = (sender as UIElement).TouchesOver.Select(t => t.GetTouchPoint(null).Position).GetAverage().FixCoordinates();
+                showTouchControl(touchPosition);
                 return;
             }
             waitingForSecondTouch = true;
             lastTouchUpTime = touchUpTime;
         }
 
-        private void showTouchControl()
+        private void showTouchControl(Point position)
         {
             if (touchWindow == null)
             {
@@ -104,8 +103,8 @@ namespace CodeConnect.Touch
                 touchWindow.Deactivated += (s, e) => { touchWindow.Hide(); (view as UIElement).Focus(); };
                 touchWindow.Closed += (s, e) => touchWindow = null;
             }
-            touchWindow.Left = lastTouchPosition.X - TouchControlShapeFactory.DIAMETER / 2;
-            touchWindow.Top = lastTouchPosition.Y - TouchControlShapeFactory.DIAMETER / 2;
+            touchWindow.Left = position.X - TouchControlShapeFactory.DIAMETER / 2;
+            touchWindow.Top = position.Y - TouchControlShapeFactory.DIAMETER / 2;
             touchWindow.Show();
             touchWindow.Focus();
         }
