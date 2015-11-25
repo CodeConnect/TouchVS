@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using System.Windows;
 using System.Linq;
 using CodeConnect.Touch.Helpers;
+using System.Windows.Input;
 
 namespace CodeConnect.Touch
 {
@@ -22,6 +23,8 @@ namespace CodeConnect.Touch
         private readonly IWpfTextView view;
         private Window touchWindow;
         private Point lastTouchPosition;
+        DateTime lastTouchUpTime;
+        bool waitingForSecondTouch;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TouchAdornment"/> class.
@@ -40,9 +43,15 @@ namespace CodeConnect.Touch
             touchWindow = null;
 
             (view as UIElement).TouchDown += TouchAdornment_TouchDown;
+            (view as UIElement).TouchUp += TouchAdornment_TouchUp;
         }
 
-        private void TouchAdornment_TouchDown(object sender, System.Windows.Input.TouchEventArgs e)
+        /// <summary>
+        /// Implementtion 1: Touch with three fingers to start
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TouchAdornment_TouchDown(object sender, TouchEventArgs e)
         {
             if ((sender as UIElement).TouchesOver.Count() == 3)
             {
@@ -52,7 +61,24 @@ namespace CodeConnect.Touch
             }
         }
 
-
+        /// <summary>
+        /// Implementation 2: Double tap to start
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TouchAdornment_TouchUp(object sender, TouchEventArgs e)
+        {
+            var touchUpTime = DateTime.UtcNow;
+            if (waitingForSecondTouch && touchUpTime < lastTouchUpTime + TimeSpan.FromSeconds(1))
+            {
+                waitingForSecondTouch = false;
+                lastTouchPosition = (sender as UIElement).TouchesOver.Select(t => t.GetTouchPoint(null).Position).GetAverage();
+                showTouchControl();
+                return;
+            }
+            waitingForSecondTouch = true;
+            lastTouchUpTime = touchUpTime;
+        }
 
         private void showTouchControl()
         {
