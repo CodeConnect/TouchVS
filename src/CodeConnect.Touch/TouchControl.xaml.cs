@@ -21,18 +21,17 @@ namespace CodeConnect.Touch
     /// </summary>
     public partial class TouchControl : UserControl
     {
-        static TouchControl()
-        {
-        }
-
         public TouchControl()
         {
             InitializeComponent();
+            initializeBrushes();
         }
 
         public TouchControl(int segmentAmount, Window parentWindow)
         {
             InitializeComponent();
+            initializeBrushes();
+
             for (int i = 0; i < segmentAmount; i++)
             {
                 var segment = TouchControlShapeFactory.GetSegment(segmentAmount, i);
@@ -64,6 +63,7 @@ namespace CodeConnect.Touch
                 path.TouchUp += (s, e) =>
                 {
                     e.Handled = true;
+                    VisualStudioModule.ExecuteCommand($"Command{i}");
                     parentWindow.Hide();
                 } ;
             }
@@ -71,6 +71,14 @@ namespace CodeConnect.Touch
             var middleSegment = TouchControlShapeFactory.GetMiddleSegment();
             touchCanvas.Children.Add(middleSegment);
             */
+        }
+
+        private void initializeBrushes()
+        {
+            this.Resources["foregroundColor"] = VisualStudioModule.ForegroundBrush;
+            this.Resources["backgroundColor"] = VisualStudioModule.BackgroundBrush;
+            this.Resources["foregroundTransparentColor"] = VisualStudioModule.BackgroundHighlightTransparentBrush;
+            this.Resources["backgroundTransparentColor"] = VisualStudioModule.BackgroundTransparentBrush;
         }
     }
 }

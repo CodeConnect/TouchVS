@@ -7,28 +7,31 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <Style TargetType="Path">
-            <Setter Property="Stroke" Value="Gold" />
-            <Setter Property="Fill" Value="Red" />
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Fill" Value="Yellow" />
-                </Trigger>
-                <Trigger Property="IsStylusOver" Value="True">
-                    <Setter Property="Fill" Value="Yellow" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="Gold" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="FontWeight" Value="Bold" />
-        </Style>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="foregroundColor" Color="Red"/>
+            <SolidColorBrush x:Key="backgroundColor" Color="Blue"/>
+            <SolidColorBrush x:Key="foregroundTransparentColor" Color="Pink"/>
+            <SolidColorBrush x:Key="backgroundTransparentColor" Color="Azure"/>
+            <Style TargetType="Path">
+                <Setter Property="Stroke" Value="{DynamicResource foregroundColor}" />
+                <Setter Property="Fill" Value="{DynamicResource backgroundTransparentColor}" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Fill" Value="{DynamicResource foregroundTransparentColor}" />
+                    </Trigger>
+                    <Trigger Property="IsStylusOver" Value="True">
+                        <Setter Property="Fill" Value="{DynamicResource foregroundTransparentColor}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource foregroundColor}" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Canvas x:Name="touchCanvas">
-        <Border Canvas.Left="20" Canvas.Right="180" Canvas.Top="20" Canvas.Bottom="180" Width="160" Height="160">
-            <TextBlock Text="Hey" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
-        </Border>
     </Canvas>
 </UserControl>
