@@ -16,10 +16,26 @@ namespace CodeConnect.Touch.Helpers
             return new Point(averageX, averageY);
         }
 
-        public static Point FixCoordinates(this Point point)
+        public static Point FixCoordinates(this Point point, DependencyObject sourceElement = null)
         {
-            var left = Application.Current.MainWindow.Left;
-            var top = Application.Current.MainWindow.Top;
+            Window parentWindow;
+            if (sourceElement == null)
+            {
+                parentWindow = Application.Current.MainWindow;
+            }
+            else
+            {
+                parentWindow = Window.GetWindow(sourceElement);
+            }
+
+            // Don't throw on errors, just degrade UX
+            if (parentWindow == null)
+            {
+                return point;
+            }
+
+            var left = parentWindow.Left;
+            var top = parentWindow.Top;
             return new Point(point.X + left, point.Y + top);
         }
     }

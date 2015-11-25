@@ -22,6 +22,11 @@ namespace CodeConnect.Touch
     /// </summary>
     public partial class TouchControl : UserControl
     {
+        /// <summary>
+        /// Creates a touch control
+        /// </summary>
+        /// <param name="entryCommand"></param>
+        /// <param name="parentWindow"></param>
         public TouchControl(TouchBranchCommand entryCommand, Window parentWindow)
         {
             InitializeComponent();
@@ -74,15 +79,45 @@ namespace CodeConnect.Touch
                     {
                         e.Handled = true;
                         parentWindow.Hide();
-
+                        Show(branchCommand, e);
                     };
                 }
                 index++;
             }
-            /*
-            var middleSegment = TouchControlShapeFactory.GetMiddleSegment();
-            touchCanvas.Children.Add(middleSegment);
-            */
+        }
+
+        /// <summary>
+        /// Shows a window that contains the TouchControl
+        /// </summary>
+        /// <param name="entryPoint"></param>
+        /// <param name="touchEvent"></param>
+        internal static void Show(TouchBranchCommand entryPoint, TouchEventArgs touchEvent)
+        {
+            var position = touchEvent.GetTouchPoint(null).Position.FixCoordinates(touchEvent.Source as DependencyObject);
+
+            var touchWindow = new Window()
+            {
+                //ShowInTaskbar = false, commented out for debugging
+                ShowActivated = true,
+                AllowsTransparency = true,
+                Background = new SolidColorBrush(Colors.Transparent),
+                WindowStyle = WindowStyle.None,
+                WindowStartupLocation = WindowStartupLocation.Manual,
+                Width = 2 * TouchControlShapeFactory.DIAMETER,
+                Height = 2 * TouchControlShapeFactory.DIAMETER,
+            };
+            touchWindow.Content = new TouchControl(entryPoint, touchWindow)
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+            };
+            touchWindow.LostFocus += (s, e) => { touchWindow.Hide(); };
+            touchWindow.Deactivated += (s, e) => { touchWindow.Hide(); };
+            touchWindow.Closed += (s, e) => touchWindow = null;
+            touchWindow.Left = position.X - TouchControlShapeFactory.DIAMETER / 2;
+            touchWindow.Top = position.Y - TouchControlShapeFactory.DIAMETER / 2;
+            touchWindow.Show();
+            touchWindow.Focus();
         }
 
         private void initializeBrushes()
