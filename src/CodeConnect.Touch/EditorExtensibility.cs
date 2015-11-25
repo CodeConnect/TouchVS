@@ -94,7 +94,7 @@ namespace CodeConnect.Touch
                     Width = 2*TouchControlShapeFactory.DIAMETER,
                     Height = 2*TouchControlShapeFactory.DIAMETER,
                 };
-                touchWindow.Content = new TouchControl(5, touchWindow)
+                touchWindow.Content = new TouchControl(Model.Commands.EntryPoint, touchWindow)
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     VerticalAlignment = VerticalAlignment.Stretch,

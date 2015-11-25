@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CodeConnect.Touch.Model;
 
 namespace CodeConnect.Touch
 {
@@ -21,20 +22,16 @@ namespace CodeConnect.Touch
     /// </summary>
     public partial class TouchControl : UserControl
     {
-        public TouchControl()
-        {
-            InitializeComponent();
-            initializeBrushes();
-        }
-
-        public TouchControl(int segmentAmount, Window parentWindow)
+        public TouchControl(TouchBranchCommand entryCommand, Window parentWindow)
         {
             InitializeComponent();
             initializeBrushes();
 
-            for (int i = 0; i < segmentAmount; i++)
+            var segmentAmount = entryCommand.Commands.Count();
+            int index = 0;
+            foreach (var command in entryCommand.Commands)
             {
-                var segment = TouchControlShapeFactory.GetSegment(segmentAmount, i);
+                var segment = TouchControlShapeFactory.GetSegment(segmentAmount, index);
                 var path = new Path()
                 {
                     Data = segment,
@@ -48,11 +45,11 @@ namespace CodeConnect.Touch
                 };
                 var text = new TextBlock()
                 {
-                    Text = $"S {i}",
+                    Text = command.DisplayName,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                 };
-                var textCenter = TouchControlShapeFactory.GetTextPosition(segmentAmount, i);
+                var textCenter = TouchControlShapeFactory.GetTextPosition(segmentAmount, index);
                 Canvas.SetLeft(border, textCenter.X - 50);
                 Canvas.SetRight(border, textCenter.X + 50);
                 Canvas.SetTop(border, textCenter.Y - 20);
@@ -60,12 +57,27 @@ namespace CodeConnect.Touch
                 border.Child = text;
                 touchCanvas.Children.Add(border);
 
-                path.TouchUp += (s, e) =>
+                var vsCommand = command as TouchVSCommand;
+                var branchCommand = command as TouchBranchCommand;
+                if (vsCommand != null)
                 {
-                    e.Handled = true;
-                    VisualStudioModule.ExecuteCommand("View.FullScreen");
-                    parentWindow.Hide();
-                } ;
+                    path.TouchUp += (s, e) =>
+                    {
+                        e.Handled = true;
+                        VisualStudioModule.ExecuteCommand(vsCommand.VsCommandName, vsCommand.VsCommandParams);
+                        parentWindow.Hide();
+                    };
+                }
+                else if (branchCommand != null)
+                {
+                    path.TouchUp += (s, e) =>
+                    {
+                        e.Handled = true;
+                        parentWindow.Hide();
+
+                    };
+                }
+                index++;
             }
             /*
             var middleSegment = TouchControlShapeFactory.GetMiddleSegment();
