@@ -56,7 +56,11 @@
     <Compile Include="EditorExtensibilityTextViewCreationListener.cs" />
     <Compile Include="Helpers\PointExtensions.cs" />
     <Compile Include="Helpers\TouchControlShapeFactory.cs" />
+    <Compile Include="Model\Commands.cs" />
+    <Compile Include="Model\TouchBranchCommand.cs" />
+    <Compile Include="Model\TouchVSCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\TouchCommand.cs" />
     <Compile Include="TouchControl.xaml.cs">
       <DependentUpon>TouchControl.xaml</DependentUpon>
     </Compile>
