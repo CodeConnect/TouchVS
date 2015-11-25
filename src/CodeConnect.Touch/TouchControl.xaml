@@ -19,8 +19,16 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Gold" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
     </UserControl.Resources>
     <Canvas x:Name="touchCanvas">
-        
+        <Border Canvas.Left="20" Canvas.Right="180" Canvas.Top="20" Canvas.Bottom="180" Width="160" Height="160">
+            <TextBlock Text="Hey" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+        </Border>
     </Canvas>
 </UserControl>

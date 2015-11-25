@@ -15,6 +15,7 @@ namespace CodeConnect.Touch.Helpers
         const double FULL_CIRCLE = 360d;
         const double INNER_RADIUS = 50d;
         const double OUTER_RADIUS = 180d;
+        const double TEXT_RADIUS = 150d;
         public const double DIAMETER = 2 * OUTER_RADIUS;
 
         public static Geometry GetSegment(int totalSegments, int index)
@@ -39,6 +40,13 @@ namespace CodeConnect.Touch.Helpers
                 x: radius * Math.Cos(angle) + OUTER_RADIUS,
                 y: radius * Math.Sin(angle) + OUTER_RADIUS
                 );
+        }
+
+        public static Point GetTextPosition(int totalSegments, int index)
+        {
+            var arcAngle = FULL_CIRCLE / totalSegments;
+            var targetAngle = index * arcAngle;
+            return ToCartesian(targetAngle, TEXT_RADIUS);
         }
 
         public static UIElement GetMiddleSegment()
