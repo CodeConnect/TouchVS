@@ -58,13 +58,13 @@ namespace CodeConnect.Touch
         {
             // Ignore swipes
             var upPosition = e.TouchDevice.GetTouchPoint(null).Position;
-            if (!upPosition.IsCloseTo(lastDownPosition, 7.0d))
+            if (!upPosition.IsCloseTo(lastDownPosition, 15.0d))
             {
                 return; 
             }
 
             var touchUpTime = DateTime.UtcNow;
-            if (waitingForSecondTouch && touchUpTime < lastTouchUpTime + TimeSpan.FromSeconds(1))
+            if (waitingForSecondTouch && touchUpTime < lastTouchUpTime + TimeSpan.FromSeconds(0.5))
             {
                 waitingForSecondTouch = false;
                 TouchControl.Show(Model.Commands.EntryPoint, e);
