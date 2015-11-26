@@ -1,11 +1,12 @@
 # Touch VS
 **Touch interface for common functions of Visual Studio** ![logo](https://github.com/CodeConnect/TouchVS/blob/master/src/CodeConnect.Touch/Resources/icon.png?raw=true)
 
-
 ## How to use it?
 
 Install the VSIX from Visual Studio gallery or build the source
 Launch the touch interface by double-tapping the code editor's surface.
+
+![gif](https://i.gyazo.com/c7008b663479f5fce1894c72fceb4f20.gif)
 
 ## Contributions
 
