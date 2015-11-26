@@ -1,5 +1,7 @@
 # Touch VS
-**Touch interface for common functions of Visual Studio** ![logo](https://github.com/CodeConnect/TouchVS/blob/master/src/CodeConnect.Touch/Resources/icon.png?raw=true)
+**Touch interface for common functions of Visual Studio**
+
+![logo](https://github.com/CodeConnect/TouchVS/blob/master/src/CodeConnect.Touch/Resources/preview.png?raw=true)
 
 ## How to use it?
 
@@ -21,3 +23,6 @@ Relevant bits of code:
 * [Creating the UI - CodeConnect.TouchVS.**TouchControl**](https://github.com/CodeConnect/TouchVS/blob/master/src/CodeConnect.Touch/TouchControl.xaml.cs)
 * [Theme and command execution - CodeConnect.TouchVS.**VisualStudioModule**](https://github.com/CodeConnect/TouchVS/blob/master/src/CodeConnect.Touch/VisualStudioModule.cs)
 
+## Screenshots
+
+![v1.0](https://github.com/CodeConnect/TouchVS/blob/master/screenshot.png?raw=true)
