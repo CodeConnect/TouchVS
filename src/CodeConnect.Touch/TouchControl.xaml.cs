@@ -22,10 +22,11 @@ namespace CodeConnect.Touch
     /// </summary>
     public partial class TouchControl : UserControl
     {
-        /// <summary>
-        /// Caches the windows with their controls so that they don't need to be regenerated on each touch.
-        /// </summary>
+        // Caches the windows with their controls so that they don't need to be regenerated on each touch.
         static Dictionary<TouchBranchCommand, Window> windowCache = new Dictionary<TouchBranchCommand, Window>();
+        // Designates area available for the text labels.
+        const int TEXT_AVAILABLE_WIDTH = 100;
+        const int TEXT_AVAILABLE_HEIGHT = 40;
 
         /// <summary>
         /// Creates a touch control
@@ -41,32 +42,38 @@ namespace CodeConnect.Touch
             int index = 0;
             foreach (var command in entryCommand.Commands)
             {
+                // Slice shape:
                 var segment = TouchControlShapeFactory.GetSegment(segmentAmount, index);
                 var path = new Path()
                 {
                     Data = segment,
                 };
                 touchCanvas.Children.Add(path);
+
+                // Invisible border that holds and centers the text label:
                 var border = new Border()
                 {
-                    Width = 100,
-                    Height = 40,
+                    Width = TEXT_AVAILABLE_WIDTH,
+                    Height = TEXT_AVAILABLE_HEIGHT,
                     IsHitTestVisible = false,
                 };
+                var textCenter = TouchControlShapeFactory.GetTextPosition(segmentAmount, index);
+                Canvas.SetLeft(border, textCenter.X - TEXT_AVAILABLE_WIDTH / 2);
+                Canvas.SetRight(border, textCenter.X + TEXT_AVAILABLE_WIDTH / 2);
+                Canvas.SetTop(border, textCenter.Y - TEXT_AVAILABLE_HEIGHT / 2);
+                Canvas.SetBottom(border, textCenter.Y + TEXT_AVAILABLE_HEIGHT / 2);
+
+                // The text label, centered inside the invisible border
                 var text = new TextBlock()
                 {
                     Text = command.DisplayName,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                 };
-                var textCenter = TouchControlShapeFactory.GetTextPosition(segmentAmount, index);
-                Canvas.SetLeft(border, textCenter.X - 50);
-                Canvas.SetRight(border, textCenter.X + 50);
-                Canvas.SetTop(border, textCenter.Y - 20);
-                Canvas.SetBottom(border, textCenter.Y + 20);
                 border.Child = text;
                 touchCanvas.Children.Add(border);
 
+                // Give action to the slice. Looking forward to using extended `is` expression in pattern matching (https://github.com/dotnet/roslyn/issues/206)
                 var vsCommand = command as TouchVSCommand;
                 var branchCommand = command as TouchBranchCommand;
                 if (vsCommand != null)
@@ -87,6 +94,7 @@ namespace CodeConnect.Touch
                         Show(branchCommand, e);
                     };
                 }
+
                 index++;
             }
         }
@@ -111,8 +119,8 @@ namespace CodeConnect.Touch
                     Background = new SolidColorBrush(Colors.Transparent),
                     WindowStyle = WindowStyle.None,
                     WindowStartupLocation = WindowStartupLocation.Manual,
-                    Width = 2 * TouchControlShapeFactory.DIAMETER + 2, // 2 accounts for 1px margins of the canvas
-                    Height = 2 * TouchControlShapeFactory.DIAMETER + 2,
+                    Width = TouchControlShapeFactory.DIAMETER + 2, // 2 accounts for 1px margins of the canvas
+                    Height = TouchControlShapeFactory.DIAMETER + 2,
                 };
                 touchWindow.Content = new TouchControl(entryPoint, touchWindow)
                 {
@@ -130,6 +138,7 @@ namespace CodeConnect.Touch
 
                 windowCache.Add(entryPoint, touchWindow);
             }
+            // Move the window such that "position" point is in the middle, and show the window
             touchWindow.Left = position.X - TouchControlShapeFactory.DIAMETER / 2;
             touchWindow.Top = position.Y - TouchControlShapeFactory.DIAMETER / 2;
             touchWindow.Show();
