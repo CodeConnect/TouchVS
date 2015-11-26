@@ -5,6 +5,7 @@
     <DisplayName>Touch VS</DisplayName>
     <Description xml:space="preserve">Touch interface for common functions of Visual Studio.</Description>
     <MoreInfo>https://github.com/CodeConnect/TouchVS</MoreInfo>
+    <License>Resources\LICENSE.txt</License>
     <Icon>Resources\icon.png</Icon>
     <PreviewImage>Resources\preview.png</PreviewImage>
     <Tags>touch interface stylus ui</Tags>
