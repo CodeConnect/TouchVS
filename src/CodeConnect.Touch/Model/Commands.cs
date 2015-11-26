@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace CodeConnect.Touch.Model
 {
+    /// <summary>
+    /// The list of commands available in VSTouch
+    /// Visual Studio command names taken from https://raw.githubusercontent.com/ligershark/VoiceExtension/master/VoiceExtension/Resources/commands.txt
+    /// </summary>
     static public class Commands
     {
         static TouchBranchCommand entryPoint = new TouchBranchCommand("Entry point", new List<TouchCommand>()
             {
                 new TouchBranchCommand("Build", new List<TouchCommand>()
                 {
+                    new TouchVSCommand("Debug", "Debug.Start"),
                     new TouchVSCommand("Build", "Build.BuildSolution"),
                     new TouchVSCommand("Rebuild", "Build.RebuildSolution"),
                     new TouchVSCommand("Clean", "Build.CleanSolution"),
@@ -51,10 +56,6 @@ namespace CodeConnect.Touch.Model
                 })
             });
 
-        /// <summary>
-        /// The list of commands available in VSTouch
-        /// Visual Studio command names taken from https://raw.githubusercontent.com/ligershark/VoiceExtension/master/VoiceExtension/Resources/commands.txt
-        /// </summary>
         public static TouchBranchCommand EntryPoint => entryPoint;
     }
 }
