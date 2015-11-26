@@ -8,19 +8,19 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
-            <SolidColorBrush x:Key="foregroundColor" Color="Red"/>
-            <SolidColorBrush x:Key="backgroundColor" Color="Blue"/>
-            <SolidColorBrush x:Key="foregroundTransparentColor" Color="Pink"/>
-            <SolidColorBrush x:Key="backgroundTransparentColor" Color="Azure"/>
+            <SolidColorBrush x:Key="foregroundColor" />
+            <SolidColorBrush x:Key="backgroundColor" />
+            <SolidColorBrush x:Key="backgroundHighlightTransparentColor" />
+            <SolidColorBrush x:Key="backgroundTransparentColor" />
             <Style TargetType="Path">
                 <Setter Property="Stroke" Value="{DynamicResource foregroundColor}" />
                 <Setter Property="Fill" Value="{DynamicResource backgroundTransparentColor}" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Fill" Value="{DynamicResource foregroundTransparentColor}" />
+                        <Setter Property="Fill" Value="{DynamicResource backgroundHighlightTransparentColor}" />
                     </Trigger>
                     <Trigger Property="IsStylusOver" Value="True">
-                        <Setter Property="Fill" Value="{DynamicResource foregroundTransparentColor}" />
+                        <Setter Property="Fill" Value="{DynamicResource backgroundHighlightTransparentColor}" />
                     </Trigger>
                 </Style.Triggers>
             </Style>

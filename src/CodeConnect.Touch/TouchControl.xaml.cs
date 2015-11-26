@@ -105,7 +105,7 @@ namespace CodeConnect.Touch
             {
                 touchWindow = new Window()
                 {
-                    //ShowInTaskbar = false, commented out for debugging
+                    ShowInTaskbar = false,
                     ShowActivated = true,
                     AllowsTransparency = true,
                     Background = new SolidColorBrush(Colors.Transparent),
@@ -140,7 +140,7 @@ namespace CodeConnect.Touch
         {
             this.Resources["foregroundColor"] = VisualStudioModule.ForegroundBrush;
             this.Resources["backgroundColor"] = VisualStudioModule.BackgroundBrush;
-            this.Resources["foregroundTransparentColor"] = VisualStudioModule.BackgroundHighlightTransparentBrush;
+            this.Resources["backgroundHighlightTransparentColor"] = VisualStudioModule.BackgroundHighlightTransparentBrush;
             this.Resources["backgroundTransparentColor"] = VisualStudioModule.BackgroundTransparentBrush;
         }
     }
