@@ -23,6 +23,7 @@ namespace CodeConnect.Touch
         readonly IWpfTextView view;
         DateTime lastTouchUpTime;
         bool waitingForSecondTouch;
+        private Point lastDownPosition;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TouchAdornment"/> class.
@@ -39,7 +40,13 @@ namespace CodeConnect.Touch
 
             this.view = view;
 
+            (view as UIElement).TouchDown += TouchAdornment_TouchDown;
             (view as UIElement).TouchUp += TouchAdornment_TouchUp;
+        }
+
+        private void TouchAdornment_TouchDown(object sender, TouchEventArgs e)
+        {
+            lastDownPosition = e.TouchDevice.GetTouchPoint(null).Position;
         }
 
         /// <summary>
@@ -49,6 +56,13 @@ namespace CodeConnect.Touch
         /// <param name="e"></param>
         private void TouchAdornment_TouchUp(object sender, TouchEventArgs e)
         {
+            // Ignore swipes
+            var upPosition = e.TouchDevice.GetTouchPoint(null).Position;
+            if (!upPosition.IsCloseTo(lastDownPosition, 7.0d))
+            {
+                return; 
+            }
+
             var touchUpTime = DateTime.UtcNow;
             if (waitingForSecondTouch && touchUpTime < lastTouchUpTime + TimeSpan.FromSeconds(1))
             {

@@ -16,6 +16,19 @@ namespace CodeConnect.Touch.Helpers
             return new Point(averageX, averageY);
         }
 
+        /// <summary>
+        /// Checks if the manhattan distance between the two points is less than provided tolerance
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="otherPoint"></param>
+        /// <param name="tolerance"></param>
+        /// <returns></returns>
+        public static bool IsCloseTo(this Point point, Point otherPoint, double tolerance)
+        {
+            return Math.Abs(point.X - otherPoint.X) < tolerance
+                && Math.Abs(point.Y - otherPoint.Y) < tolerance;
+        }
+
         public static Point FixCoordinates(this Point point, DependencyObject sourceElement = null)
         {
             Window parentWindow;
