@@ -68,6 +68,7 @@ namespace CodeConnect.Touch
             {
                 waitingForSecondTouch = false;
                 TouchControl.Show(Model.Commands.EntryPoint, e);
+                return;
             }
             waitingForSecondTouch = true;
             lastTouchUpTime = touchUpTime;
