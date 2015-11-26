@@ -50,9 +50,9 @@ namespace CodeConnect.Touch
             backgroundBrush.Freeze();
             var foregroundBrush = GetBrush(fontsAndColorsItems.Item("Plain Text").Foreground);
             foregroundBrush.Freeze();
-            var backgroundTransparentBrush = GetBrush(fontsAndColorsItems.Item("Plain Text").Background, 200);
+            var backgroundTransparentBrush = GetBrush(fontsAndColorsItems.Item("Plain Text").Background, 210);
             backgroundBrush.Freeze();
-            var backgroundHighlightTransparentBrush = GetBrush(fontsAndColorsItems.Item("urlformat").Foreground, 200);
+            var backgroundHighlightTransparentBrush = GetBrush(fontsAndColorsItems.Item("urlformat").Foreground, 170);
             foregroundBrush.Freeze();
             var hyperlinkBrush = GetBrush(fontsAndColorsItems.Item("urlformat").Foreground); // also "HTML Element Name"
             hyperlinkBrush.Freeze();

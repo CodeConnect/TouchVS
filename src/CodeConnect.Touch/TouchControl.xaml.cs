@@ -111,8 +111,8 @@ namespace CodeConnect.Touch
                     Background = new SolidColorBrush(Colors.Transparent),
                     WindowStyle = WindowStyle.None,
                     WindowStartupLocation = WindowStartupLocation.Manual,
-                    Width = 2 * TouchControlShapeFactory.DIAMETER,
-                    Height = 2 * TouchControlShapeFactory.DIAMETER,
+                    Width = 2 * TouchControlShapeFactory.DIAMETER + 2, // 2 accounts for 1px margins of the canvas
+                    Height = 2 * TouchControlShapeFactory.DIAMETER + 2,
                 };
                 touchWindow.Content = new TouchControl(entryPoint, touchWindow)
                 {
