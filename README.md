@@ -3,16 +3,17 @@
 
 ## How to use it?
 
-Install the VSIX from Visual Studio gallery or build the source
-Launch the touch interface by double-tapping the code editor's surface.
+1. Install the VSIX from Visual Studio gallery or build the source
+2. Launch the touch interface by double-tapping the code editor's surface.
+3. Tap on the action you're interested in to invoke it. Tap outside of the control to hide it.
 
 ![gif](https://i.gyazo.com/c7008b663479f5fce1894c72fceb4f20.gif)
 
 ## Contributions
 
-Contributions are welcome.
+I saw a popular discussion on touch interface in Visual Studio and thought this would be a fun project. All contributions are welcome :)
 
-[Please share](https://github.com/CodeConnect/TouchVS/issues) which commands you'd like to use in touch interface.
+[Please share](https://github.com/CodeConnect/TouchVS/issues) which commands you'd like to use in touch interface, or even better, submit a PR!
 
 Relevant bits of code:
 * [Available commands - CodeConnect.TouchVS.**Model.Commands**](https://github.com/CodeConnect/TouchVS/blob/master/src/CodeConnect.Touch/Model/Commands.cs)
@@ -20,6 +21,3 @@ Relevant bits of code:
 * [Creating the UI - CodeConnect.TouchVS.**TouchControl**](https://github.com/CodeConnect/TouchVS/blob/master/src/CodeConnect.Touch/TouchControl.xaml.cs)
 * [Theme and command execution - CodeConnect.TouchVS.**VisualStudioModule**](https://github.com/CodeConnect/TouchVS/blob/master/src/CodeConnect.Touch/VisualStudioModule.cs)
 
-## How to build
-
-It should work out of the box
