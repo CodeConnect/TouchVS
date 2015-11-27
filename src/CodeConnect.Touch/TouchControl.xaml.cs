@@ -94,7 +94,7 @@ namespace CodeConnect.Touch
                     {
                         args.Handled = true;
                         parentWindow.Hide();
-                        Show(branchCommand, position.FixCoordinates(args.Source as DependencyObject));
+                        Show(branchCommand, windowPosition);
                     };
 
                     path.MouseLeftButtonUp += (s, e) => { handle(e, e.GetPosition(null)); };
@@ -104,6 +104,8 @@ namespace CodeConnect.Touch
                 index++;
             }
         }
+
+        static Point windowPosition = new Point(0, 0);
 
         /// <summary>
         /// Shows a window that contains the TouchControl
@@ -142,11 +144,14 @@ namespace CodeConnect.Touch
 
                 windowCache.Add(entryPoint, touchWindow);
             }
+
             // Move the window such that "position" point is in the middle, and show the window
             touchWindow.Left = position.X - TouchControlShapeFactory.DIAMETER / 2;
             touchWindow.Top = position.Y - TouchControlShapeFactory.DIAMETER / 2;
             touchWindow.Show();
             touchWindow.Focus();
+
+            windowPosition = position;
         }
 
         private void initializeBrushes()
