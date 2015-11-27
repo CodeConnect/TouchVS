@@ -27,7 +27,7 @@ namespace CodeConnect.Touch.Helpers
             var point2 = ToCartesian(endAngle, OUTER_RADIUS);
             var point3 = ToCartesian(endAngle, INNER_RADIUS);
             var point4 = ToCartesian(startAngle, INNER_RADIUS);
-            var pathDefinition = $"M {point1.X} {point1.Y} A {OUTER_RADIUS} {OUTER_RADIUS} 0 0 1 {point2.X} {point2.Y} L {point3.X} {point3.Y} A {INNER_RADIUS} {INNER_RADIUS} 0 0 0 {point4.X} {point4.Y} z";
+            var pathDefinition = formatInvariant($"M {point1.X} {point1.Y} A {OUTER_RADIUS} {OUTER_RADIUS} 0 0 1 {point2.X} {point2.Y} L {point3.X} {point3.Y} A {INNER_RADIUS} {INNER_RADIUS} 0 0 0 {point4.X} {point4.Y} z");
             var geometry = Geometry.Parse(pathDefinition); 
             return geometry;
         }
@@ -55,6 +55,19 @@ namespace CodeConnect.Touch.Helpers
             {
 
             };
+        }
+
+        /// <summary>
+        /// Interpolates the string in invariant culture
+        /// 
+        /// Note: this is the only method that requires .NET framework 4.6
+        /// If we ever need to drop to 4.5, we'll just format the string the old way.
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        private static string formatInvariant(IFormattable format)
+        {
+            return format.ToString(null, System.Globalization.CultureInfo.InvariantCulture);
         }
     }
 }
