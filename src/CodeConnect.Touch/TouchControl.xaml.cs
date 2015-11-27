@@ -27,6 +27,8 @@ namespace CodeConnect.Touch
         // Designates area available for the text labels.
         const int TEXT_AVAILABLE_WIDTH = 100;
         const int TEXT_AVAILABLE_HEIGHT = 40;
+        // Used to store the current/last window position
+        static Point windowPosition = new Point(0, 0);
 
         /// <summary>
         /// Creates a touch control
@@ -79,11 +81,11 @@ namespace CodeConnect.Touch
                 if (vsCommand != null)
                 {
                     Action<RoutedEventArgs> handle = (RoutedEventArgs args) =>
-                   {
-                       args.Handled = true;
-                       VisualStudioModule.ExecuteCommand(vsCommand.VsCommandName, vsCommand.VsCommandParams);
-                       parentWindow.Hide();
-                   };
+                    {
+                        args.Handled = true;
+                        VisualStudioModule.ExecuteCommand(vsCommand.VsCommandName, vsCommand.VsCommandParams);
+                        parentWindow.Hide();
+                    };
 
                     path.MouseLeftButtonUp += (s, e) => { handle(e); };
                     path.TouchUp += (s, e) => { handle(e); };
@@ -104,8 +106,6 @@ namespace CodeConnect.Touch
                 index++;
             }
         }
-
-        static Point windowPosition = new Point(0, 0);
 
         /// <summary>
         /// Shows a window that contains the TouchControl
@@ -151,6 +151,7 @@ namespace CodeConnect.Touch
             touchWindow.Show();
             touchWindow.Focus();
 
+            // Update the window position
             windowPosition = position;
         }
 
