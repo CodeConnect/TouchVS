@@ -40,7 +40,7 @@ namespace CodeConnect.Touch
 
             this.view = view;
 
-            (view as UIElement).MouseUp += EditorExtensibility_MouseUp;
+            (view as UIElement).MouseDown += EditorExtensibility_MouseDown;
             (view as UIElement).TouchDown += TouchAdornment_TouchDown;
             (view as UIElement).TouchUp += TouchAdornment_TouchUp;
         }
@@ -82,9 +82,9 @@ namespace CodeConnect.Touch
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void EditorExtensibility_MouseUp(object sender, MouseButtonEventArgs e)
+        private void EditorExtensibility_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.MiddleButton == MouseButtonState.Released)
+            if (e.MiddleButton == MouseButtonState.Pressed)
             {
                 var position = e.GetPosition(null).FixCoordinates(e.Source as DependencyObject);
                 TouchControl.Show(Model.Commands.EntryPoint, position);
