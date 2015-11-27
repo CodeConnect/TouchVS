@@ -78,21 +78,27 @@ namespace CodeConnect.Touch
                 var branchCommand = command as TouchBranchCommand;
                 if (vsCommand != null)
                 {
-                    path.TouchUp += (s, e) =>
-                    {
-                        e.Handled = true;
-                        VisualStudioModule.ExecuteCommand(vsCommand.VsCommandName, vsCommand.VsCommandParams);
-                        parentWindow.Hide();
-                    };
+                    Action<RoutedEventArgs> handle = (RoutedEventArgs args) =>
+                   {
+                       args.Handled = true;
+                       VisualStudioModule.ExecuteCommand(vsCommand.VsCommandName, vsCommand.VsCommandParams);
+                       parentWindow.Hide();
+                   };
+
+                    path.MouseLeftButtonUp += (s, e) => { handle(e); };
+                    path.TouchUp += (s, e) => { handle(e); };
                 }
                 else if (branchCommand != null)
                 {
-                    path.TouchUp += (s, e) =>
+                    Action<RoutedEventArgs, Point> handle = (RoutedEventArgs args, Point position) =>
                     {
-                        e.Handled = true;
+                        args.Handled = true;
                         parentWindow.Hide();
-                        Show(branchCommand, e);
+                        Show(branchCommand, position.FixCoordinates(args.Source as DependencyObject));
                     };
+
+                    path.MouseLeftButtonUp += (s, e) => { handle(e, e.GetPosition(null)); };
+                    path.TouchUp += (s, e) => { handle(e, e.GetTouchPoint(null).Position); };
                 }
 
                 index++;
@@ -104,10 +110,8 @@ namespace CodeConnect.Touch
         /// </summary>
         /// <param name="entryPoint"></param>
         /// <param name="touchEvent"></param>
-        internal static void Show(TouchBranchCommand entryPoint, TouchEventArgs touchEvent)
+        internal static void Show(TouchBranchCommand entryPoint, Point position)
         {
-            var position = touchEvent.GetTouchPoint(null).Position.FixCoordinates(touchEvent.Source as DependencyObject);
-
             Window touchWindow;
             if (!windowCache.TryGetValue(entryPoint, out touchWindow))
             {
