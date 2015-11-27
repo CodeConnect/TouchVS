@@ -35,7 +35,7 @@ namespace CodeConnect.Touch
         {
             if (view == null)
             {
-                throw new ArgumentNullException("view");
+                throw new ArgumentNullException(nameof(view));
             }
 
             this.view = view;
