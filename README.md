@@ -26,6 +26,6 @@ Relevant bits of code:
 * [Theme and command execution - CodeConnect.TouchVS.**VisualStudioModule**](https://github.com/CodeConnect/TouchVS/blob/master/src/CodeConnect.Touch/VisualStudioModule.cs)
 
 ## See also
-[Voice Commands extension](https://github.com/ligershark/VoiceExtension) ([VSIX](https://visualstudiogallery.msdn.microsoft.com/ce35c120-405a-435b-af2a-52ff24eb2c30)) - Source for command names and code that executes thme
+[Voice Commands extension](https://github.com/ligershark/VoiceExtension) ([VSIX](https://visualstudiogallery.msdn.microsoft.com/ce35c120-405a-435b-af2a-52ff24eb2c30)) - Source for command names and code that executes them
 
 ![logo](https://github.com/CodeConnect/TouchVS/blob/master/src/CodeConnect.Touch/Resources/preview.png?raw=true)
