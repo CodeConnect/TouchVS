@@ -35,11 +35,12 @@ namespace CodeConnect.Touch
         {
             if (view == null)
             {
-                throw new ArgumentNullException("view");
+                throw new ArgumentNullException(nameof(view));
             }
 
             this.view = view;
 
+            (view as UIElement).MouseDown += EditorExtensibility_MouseDown;
             (view as UIElement).TouchDown += TouchAdornment_TouchDown;
             (view as UIElement).TouchUp += TouchAdornment_TouchUp;
         }
@@ -60,18 +61,34 @@ namespace CodeConnect.Touch
             var upPosition = e.TouchDevice.GetTouchPoint(null).Position;
             if (!upPosition.IsCloseTo(lastDownPosition, 15.0d))
             {
-                return; 
+                return;
             }
 
             var touchUpTime = DateTime.UtcNow;
             if (waitingForSecondTouch && touchUpTime < lastTouchUpTime + TimeSpan.FromSeconds(0.5))
             {
                 waitingForSecondTouch = false;
-                TouchControl.Show(Model.Commands.EntryPoint, e);
+                var position = e.GetTouchPoint(null).Position.FixCoordinates(e.Source as DependencyObject);
+                TouchControl.Show(Model.Commands.EntryPoint, position);
                 return;
             }
             waitingForSecondTouch = true;
             lastTouchUpTime = touchUpTime;
+        }
+
+        /// <summary>
+        /// Show the menu on middle mouse down press
+        /// TODO: Prevent showing the menu when the user was drag-scrolling using the middle mouse button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditorExtensibility_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                var position = e.GetPosition(null).FixCoordinates(e.Source as DependencyObject);
+                TouchControl.Show(Model.Commands.EntryPoint, position);
+            }
         }
     }
 }
