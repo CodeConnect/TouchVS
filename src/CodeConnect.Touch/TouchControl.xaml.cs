@@ -124,6 +124,7 @@ namespace CodeConnect.Touch
                     AllowsTransparency = true,
                     Background = new SolidColorBrush(Colors.Transparent),
                     WindowStyle = WindowStyle.None,
+                    ResizeMode = ResizeMode.NoResize,
                     WindowStartupLocation = WindowStartupLocation.Manual,
                     Width = TouchControlShapeFactory.DIAMETER + 2, // 2 accounts for 1px margins of the canvas
                     Height = TouchControlShapeFactory.DIAMETER + 2,
